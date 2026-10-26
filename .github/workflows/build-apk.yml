@@ -13,9 +13,12 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-      - name: Install Android SDK pieces
-        run: yes | sdkmanager --licenses > /dev/null || true
+          java-version: '21'
+      - name: Create signing keystore and local.properties
+        run: |
+          keytool -genkeypair -v -keystore release.keystore -storepass fongmi123 -keypass fongmi123 -alias fongmi -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=FongMi TV, OU=Build, O=FongMi, L=CN, ST=CN, C=CN"
+          printf 'storeFile=../release.keystore\nkeyAlias=fongmi\nstorePassword=fongmi123\n' > local.properties
+          cat local.properties
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build leanback arm64 release
