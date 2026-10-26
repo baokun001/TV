@@ -1,0 +1,26 @@
+name: Build FongMi TV APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fongmi
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build leanback arm64 release
+        run: ./gradlew :app:assembleLeanbackArm64Release
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fongmi-tv-leanback-arm64
+          path: app/build/outputs/apk/leanback/arm64/release/*.apk
