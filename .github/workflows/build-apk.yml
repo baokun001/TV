@@ -21,10 +21,10 @@ jobs:
           cat local.properties
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build leanback arm64 release
-        run: ./gradlew :app:assembleLeanbackArm64Release
+      - name: Build leanback release (all ABIs)
+        run: ./gradlew :app:exportLeanbackReleaseApks
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: fongmi-tv-leanback-arm64
-          path: app/build/outputs/apk/leanback/arm64/release/*.apk
+          name: fongmi-tv-leanback
+          path: Release/apk/*.apk
