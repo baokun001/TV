@@ -14,7 +14,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK pieces
+        run: yes | sdkmanager --licenses > /dev/null || true
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build leanback arm64 release
